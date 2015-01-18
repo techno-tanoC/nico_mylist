@@ -1,3 +1,3 @@
 class Mylist < ActiveRecord::Base
-  have_many :videos
+  has_many :videos
 end
