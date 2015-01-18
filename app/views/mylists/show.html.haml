@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @mylist.title
+%p
+  %b Default order:
+  = @mylist.default_order
+%p
+  %b Comment:
+  = @mylist.comment
+
+= link_to 'Edit', edit_mylist_path(@mylist)
+\|
+= link_to 'Back', mylists_path
