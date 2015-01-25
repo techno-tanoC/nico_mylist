@@ -1,3 +1,11 @@
 // Place all the styles related to the mylists controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.mylists {
+  width: 200px;
+  background: #E6E6E6;
+  .mylist {
+    cursor: pointer;
+  }
+}

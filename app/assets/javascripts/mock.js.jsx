@@ -7,7 +7,7 @@ var Mylist = React.createClass({
 
   render: function() {
     return (
-      <div><a href={this.props.url}>{this.props.title}</a>s comment is {this.props.comment}</div>
+      <div className="mylist">{this.props.title}</div>
     );
   }
 });
@@ -32,8 +32,10 @@ var Mylists = React.createClass({
       return <Mylist title={mylist.title} comment={mylist.comment} url={mylist.url} key={mylist.id} />
     });
     return (
-      <div>
+      <div className="mylists col scroll-y">
+        <div>マイリスト</div>
         {mylists}
+        <div>新しいマイリスト</div>
       </div>
     );
   }
