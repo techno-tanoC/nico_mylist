@@ -9,6 +9,11 @@ class MylistsController < ApplicationController
   end
 
   def show
+    @videos = @mylist.videos
+    render "videos/index"
+  end
+
+  def info
     respond_with(@mylist)
   end
 
