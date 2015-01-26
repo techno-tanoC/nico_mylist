@@ -1,26 +1,36 @@
 var Mylist = React.createClass({
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    comment: React.PropTypes.string.isRequired,
-    url: React.PropTypes.string.isRequired
+    mylist: React.PropTypes.shape({
+      title: React.PropTypes.string.isRequired,
+      comment: React.PropTypes.string.isRequired,
+      url: React.PropTypes.string.isRequired
+    }).isRequired,
+    onClick: React.PropTypes.func.isRequired
+  },
+
+  _onClick() {
+    this.props.onClick(this.props.mylist.url);
   },
 
   render: function() {
     return (
-      <div className="mylist">{this.props.title}</div>
+      <div className="mylist" onClick={this._onClick}>{this.props.mylist.title}</div>
     );
   }
 });
 
 var Mylists = React.createClass({
+  propTypes: {
+    initSource: React.PropTypes.string.isRequired,
+    onClick: React.PropTypes.func.isRequired
+  },
+
   getInitialState: function() {
-    return {
-      mylists: []
-    };
+    return { mylists: [] };
   },
 
   componentDidMount: function() {
-    $.get(this.props.source, function(result) {
+    $.get(this.props.initSource, function(result) {
       if (this.isMounted()) {
         this.setState({mylists: result});
       }
@@ -29,8 +39,8 @@ var Mylists = React.createClass({
 
   render: function() {
     var mylists = this.state.mylists.map(function(mylist) {
-      return <Mylist title={mylist.title} comment={mylist.comment} url={mylist.url} key={mylist.id} />
-    });
+      return <Mylist key={mylist.id} mylist={mylist} onClick={this.props.onClick} />
+    }.bind(this));
     return (
       <div className="mylists col scroll-y">
         <div>マイリスト</div>
@@ -61,21 +71,21 @@ var Video = React.createClass({
 var Videos = React.createClass({
   getInitialState: function() {
     return {
-      title: "",
-      source: "",
+      title: "all videos",
+      source: "videos.json",
       videos: []
     };
   },
 
   componentDidMount: function() {
-    $.get(this.props.source, function(result) {
+    $.get(this.state.source, function(result) {
       if (this.isMounted()) {
         this.setState({videos: result});
       }
     }.bind(this));
   },
 
-  updateVideos() {
+  updateVideos(title, source) {
     $.get(source, function(result) {
       this.setState({
         title: title,
@@ -99,11 +109,15 @@ var Videos = React.createClass({
 });
 
 var App = React.createClass({
+  _onClick(url) {
+    alert(url);
+  },
+
   render: function() {
     return (
       <div>
-        <Mylists source="http://192.168.11.7:3000/mylists.json" />
-        <Videos source="http://192.168.11.7:3000/videos.json" />
+        <Mylists initSource="mylists.json" onClick={this._onClick} />
+        <Videos />
       </div>
     )
   }
